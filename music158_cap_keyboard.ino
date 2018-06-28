@@ -10,10 +10,14 @@
  */
 
 
-CapacitiveSensor keys[] = {CapacitiveSensor(2,3), CapacitiveSensor(2,4), CapacitiveSensor(2,5), CapacitiveSensor(2,6)};
+CapacitiveSensor keys[] = {CapacitiveSensor(2,3), CapacitiveSensor(2,4), 
+                           CapacitiveSensor(2,5), CapacitiveSensor(2,6),
+                           CapacitiveSensor(2,7), CapacitiveSensor(2,8),
+                           CapacitiveSensor(2,9), CapacitiveSensor(2,10),
+                           CapacitiveSensor(2,11), CapacitiveSensor(2,12)};
 int numKeys;
 
-int threshold = 3000;
+int threshold = 200;
 
 void setup() {
    //cs_4_2.set_CS_AutocaL_Millis(0xFFFFFFFF);     // turn off autocalibrate on channel 1 - just as an example
@@ -25,12 +29,10 @@ void loop() {
   long start = millis();
 
   for (int i=0; i<numKeys; i++) {
-    long total = keys[i].capacitiveSensor(30);
+    long total = keys[i].capacitiveSensor(15);
     if (total > threshold) {
-      Serial.print("key ");
-      Serial.print(i);
-      Serial.print(": ");
-      Serial.println(total); 
+
+      Serial.println(i); 
     }
   }
   
