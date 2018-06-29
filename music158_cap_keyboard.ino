@@ -1,6 +1,17 @@
-#include <Keyboard.h>
-
 #include <CapacitiveSensor.h>
+
+// MUST BE SET EACH TIME
+#define PHOTO_CELL_MAX 955
+#define PHOTO_CELL_MIN 510
+
+// number of capactive keys
+#define NUM_KEYS 10
+
+// threshold to determine if tapped or not
+#define THRESHOLD 10
+
+// use for photocell
+#define SENSOR_PIN A0
 
 
 /*
@@ -16,55 +27,66 @@ CapacitiveSensor keys[] = {CapacitiveSensor(2,3), CapacitiveSensor(2,4), Capacit
                           CapacitiveSensor(2,6), CapacitiveSensor(2,7), CapacitiveSensor(2,8),
                           CapacitiveSensor(2,9), CapacitiveSensor(2,10), CapacitiveSensor(2,11), CapacitiveSensor(2,12)};
 
+
+char keyCode[] = {'{', '|', '}', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+
 // used to disable long press
 int canBePressed[10];
 
-// num capactive keys
-int numKeys;
-
-// threshold to determine if tapped or not
-int threshold = 10;
-
-// TODO: use for photocell
-int sensorPin = A0;
 
 void setup() {
    Serial.begin(9600);
-   pinMode(sensorPin, INPUT);
-   numKeys = sizeof(keys)/sizeof(CapacitiveSensor);
+   pinMode(SENSOR_PIN, INPUT);
    
-   for (int i=0; i<numKeys; i++) {
+   for (int i=0; i<NUM_KEYS; i++) {
       canBePressed[i] = 1;
    }
 }
 
 void loop() {
-  
   // TODO: get photocell working
-  //Serial.println(-analogRead(sensorPin));
+  printCapKeyValue();
+  //printPhotoCellValue();
+}
+
+void printPhotoCellValue() {
+  int reading = analogRead(SENSOR_PIN);
+  int scaled = scalePhotoCellReading(reading, PHOTO_CELL_MIN, PHOTO_CELL_MAX, 10, 110);
+//  Serial.print(scaled);
+//  Serial.print(" ");
+//  Serial.println(reading);
+  Serial.print(char(scaled));
   
-  for (int i=0; i<numKeys; i++) {
+}
+
+void printCapKeyValue() {
+    for (int i=0; i<NUM_KEYS; i++) {
     long total = keys[i].capacitiveSensor(1);
 //    Serial.println(total); 
-    if (total > threshold) { 
+    if (total > THRESHOLD) { 
       if (canBePressed[i] != 0) {
         // convert index to ascii value for number since
         // thats what max understands
-        int ascii = i + 48;
-        Serial.print(i); 
-//        Serial.print(": "); 
-//        Serial.print(total);
-//        Serial.print("    ");
+        Serial.print(char(i));
         canBePressed[i] = 0;
       }
     }
     else {
       canBePressed[i] = 1;
     }
-    delay(5);
+    delay(10);
   }
 }
 
+
+//                  [min,max] to                [a,b]
+//  scales x from [sensorLow, sensorHigh] to [newLow, newHigh]
+int scalePhotoCellReading(int x, int sensorHigh, int sensorLow, int newHigh, int newLow) {
+  //         (b-a)(x - min)
+  // f(x) = --------------  + a
+  //          max - min
+  return ((newHigh-newLow)*(x-sensorLow)/(sensorHigh-sensorLow)) + newLow;
+}
 
 
 
