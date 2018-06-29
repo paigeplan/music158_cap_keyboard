@@ -13,7 +13,6 @@
 // use for photocell
 #define SENSOR_PIN A0
 
-
 /*
  * Based off the CapitiveSense Library Demo Sketch by Paul Badger 2008
  * 
@@ -27,12 +26,11 @@ CapacitiveSensor keys[] = {CapacitiveSensor(2,3), CapacitiveSensor(2,4), Capacit
                           CapacitiveSensor(2,6), CapacitiveSensor(2,7), CapacitiveSensor(2,8),
                           CapacitiveSensor(2,9), CapacitiveSensor(2,10), CapacitiveSensor(2,11), CapacitiveSensor(2,12)};
 
-
+// arbitrary characters to represent keys on the cap board
 char keyCode[] = {'{', '|', '}', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
 // used to disable long press
 int canBePressed[10];
-
 
 void setup() {
    Serial.begin(9600);
@@ -52,21 +50,14 @@ void loop() {
 void printPhotoCellValue() {
   int reading = analogRead(SENSOR_PIN);
   int scaled = scalePhotoCellReading(reading, PHOTO_CELL_MIN, PHOTO_CELL_MAX, 10, 110);
-//  Serial.print(scaled);
-//  Serial.print(" ");
-//  Serial.println(reading);
   Serial.print(char(scaled));
-  
 }
 
 void printCapKeyValue() {
     for (int i=0; i<NUM_KEYS; i++) {
     long total = keys[i].capacitiveSensor(1);
-//    Serial.println(total); 
     if (total > THRESHOLD) { 
       if (canBePressed[i] != 0) {
-        // convert index to ascii value for number since
-        // thats what max understands
         Serial.print(char(i));
         canBePressed[i] = 0;
       }
@@ -78,8 +69,6 @@ void printCapKeyValue() {
   }
 }
 
-
-//                  [min,max] to                [a,b]
 //  scales x from [sensorLow, sensorHigh] to [newLow, newHigh]
 int scalePhotoCellReading(int x, int sensorHigh, int sensorLow, int newHigh, int newLow) {
   //         (b-a)(x - min)
