@@ -39,6 +39,7 @@ void setup() {
 }
 
 void loop() {
+  
   // TODO: get photocell working
   //Serial.println(-analogRead(sensorPin));
   
