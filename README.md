@@ -11,4 +11,4 @@ I used EAGLE + Othermill for the keypad, universal systems laser cutter for the 
 https://www.youtube.com/watch?v=Tz-oc3M6GA8
 
 #### playback video
-TODO
+https://www.youtube.com/watch?v=3gZ4TS2Uc08
