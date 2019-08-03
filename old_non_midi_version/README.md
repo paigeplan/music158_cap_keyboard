@@ -2,10 +2,10 @@
 I used EAGLE + Othermill for the keypad, universal systems laser cutter for the enclosure, and an arduino uno and Max 7 for the programming. I used the [CapSense](https://playground.arduino.cc/Main/CapacitiveSensor?from=Main.CapSense) for detecting button presses. 
 
 #### current controls
-![explanation image](/images/keypadlayout.jpeg)
+![explanation image](/old_non_midi_version/images/keypadlayout.jpeg)
 
 #### with enclosure and connected to the Uno
-![final image](/images/with_box.png)
+![final image](/old_non_midi_version/images/with_box.png)
 
 #### othermill video
 https://www.youtube.com/watch?v=Tz-oc3M6GA8
